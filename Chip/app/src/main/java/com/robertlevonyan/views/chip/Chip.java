@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.PaintDrawable;
 import android.os.Build;
 import android.support.annotation.Px;
 import android.support.v4.content.ContextCompat;
@@ -362,9 +361,9 @@ public class Chip extends RelativeLayout {
         bgDrawable.setStroke(strokeSize, strokeColor);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            setBackground(bgDrawable);
+            super.setBackground(bgDrawable);
         } else {
-            setBackgroundDrawable(bgDrawable);
+            super.setBackgroundDrawable(bgDrawable);
         }
     }
 
@@ -398,6 +397,7 @@ public class Chip extends RelativeLayout {
 
     public void setChipText(String chipText) {
         this.chipText = chipText;
+        requestLayout();
     }
 
     public boolean isHasIcon() {
@@ -406,6 +406,7 @@ public class Chip extends RelativeLayout {
 
     public void setHasIcon(boolean hasIcon) {
         this.hasIcon = hasIcon;
+        requestLayout();
     }
 
     public Drawable getChipIcon() {
@@ -414,10 +415,14 @@ public class Chip extends RelativeLayout {
 
     public void setChipIcon(Drawable chipIcon) {
         this.chipIcon = chipIcon;
+        this.hasIcon = chipIcon != null;
+        requestLayout();
     }
 
     public void setChipIcon(Bitmap chipIcon) {
         this.chipIconBitmap = chipIcon;
+        this.hasIcon = chipIcon != null;
+        requestLayout();
     }
 
     public boolean isClosable() {
@@ -427,6 +432,12 @@ public class Chip extends RelativeLayout {
     public void setClosable(boolean closable) {
         this.closable = closable;
         this.selectable = false;
+        requestLayout();
+    }
+
+    @Override
+    public void setBackgroundColor(int backgroundColor) {
+        changeBackgroundColor(backgroundColor);
     }
 
     public int getBackgroundColor() {
@@ -435,6 +446,7 @@ public class Chip extends RelativeLayout {
 
     public void changeBackgroundColor(int backgroundColor) {
         this.backgroundColor = backgroundColor;
+        requestLayout();
     }
 
     public int getSelectedBackgroundColor() {
@@ -443,6 +455,7 @@ public class Chip extends RelativeLayout {
 
     public void changeSelectedBackgroundColor(int selectedBackgroundColor) {
         this.selectedBackgroundColor = selectedBackgroundColor;
+        requestLayout();
     }
 
     public int getTextColor() {
@@ -451,6 +464,7 @@ public class Chip extends RelativeLayout {
 
     public void setTextColor(int textColor) {
         this.textColor = textColor;
+        requestLayout();
     }
 
     public int getSelectedTextColor() {
@@ -459,6 +473,7 @@ public class Chip extends RelativeLayout {
 
     public void setSelectedTextColor(int selectedTextColor) {
         this.selectedTextColor = selectedTextColor;
+        requestLayout();
     }
 
     public int getCloseColor() {
@@ -467,6 +482,7 @@ public class Chip extends RelativeLayout {
 
     public void setCloseColor(int closeColor) {
         this.closeColor = closeColor;
+        requestLayout();
     }
 
     public int getSelectedCloseColor() {
@@ -475,6 +491,7 @@ public class Chip extends RelativeLayout {
 
     public void setSelectedCloseColor(int selectedCloseColor) {
         this.selectedCloseColor = selectedCloseColor;
+        requestLayout();
     }
 
     public int getCornerRadius() {
@@ -483,6 +500,7 @@ public class Chip extends RelativeLayout {
 
     public void setCornerRadius(int cornerRadius) {
         this.cornerRadius = cornerRadius;
+        requestLayout();
     }
 
     public boolean isSelectable() {
@@ -492,14 +510,17 @@ public class Chip extends RelativeLayout {
     public void setSelectable(boolean selectable) {
         this.selectable = selectable;
         this.closable = false;
+        requestLayout();
     }
 
     public void setStrokeSize(int strokeSize) {
         this.strokeSize = strokeSize;
+        requestLayout();
     }
 
     public void setStrokeColor(int strokeColor) {
         this.strokeColor = strokeColor;
+        requestLayout();
     }
 
     public int getStrokeSize() {
@@ -518,6 +539,7 @@ public class Chip extends RelativeLayout {
         this.iconText = generateText(iconText);
         this.iconTextColor = iconTextColor == 0 ? ContextCompat.getColor(getContext(), R.color.colorChipBackgroundClicked) : iconTextColor;
         this.iconTextBackgroundColor = iconTextBackgroundColor == 0 ? ContextCompat.getColor(getContext(), R.color.colorChipCloseClicked) : iconTextBackgroundColor;
+        requestLayout();
     }
 
     public boolean isSelected() {
